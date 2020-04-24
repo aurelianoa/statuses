@@ -1,6 +1,6 @@
 <?php
 
-namespace Statch\Statuses\Contracts;
+namespace Stacht\Statuses\Contracts;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;

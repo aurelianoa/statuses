@@ -1,12 +1,12 @@
 <?php
 
-namespace Statch\Statuses\Traits;
+namespace Stacht\Statuses\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Statch\Status\Contracts\Status;
+use Stacht\Status\Contracts\Status;
 use Illuminate\Support\Arr;
 
 trait Statusable
@@ -33,7 +33,7 @@ trait Statusable
      */
     public function status(): MorphToMany
     {
-        return $this->morphToMany(config('statch-statuses.models.status'), 'statusable', config('statch-statuses.tables.statusables'), 'statusable_id', 'status_id')
+        return $this->morphToMany(config('stacht-statuses.models.status'), 'statusable', config('stacht-statuses.tables.statusables'), 'statusable_id', 'status_id')
                     ->withTimestamps();
     }
 
@@ -81,7 +81,7 @@ trait Statusable
         if (is_numeric($status)) {
             $syncIds[] = $status;
         } else if (is_string($status)) {
-            $status = app(config('statch-statuses.models.status'))->firstWhere(['slug' => $status]);
+            $status = app(config('stacht-statuses.models.status'))->firstWhere(['slug' => $status]);
 
             if (! empty($status)) {
                 $syncIds[] = $status->getKey();

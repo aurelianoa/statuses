@@ -1,13 +1,13 @@
 {
-    "name": "statch/statuses",
+    "name": "stacht/statuses",
     "description": ":description",
     "license": "MIT",
     "authors": [{
         "name": "Aureliano Alarcon Smith",
         "email": "aureliano.alarcon@gmail.com"
     }],
-    "homepage": "https://bitbucket.com/statch/statuses",
-    "keywords": ["Laravel", "Statuses", "Statch"],
+    "homepage": "https://bitbucket.com/stacht/statuses",
+    "keywords": ["Laravel", "Statuses", "Stacht"],
     "require": {
         "php": "^7.2",
         "illuminate/support": "~5.8.0|^6.0|^7.0"
@@ -19,18 +19,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Statch\\Statuses\\": "src/"
+            "Stacht\\Statuses\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Statch\\Statuses\\Tests\\": "tests"
+            "Stacht\\Statuses\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Statch\\Statuses\\StatusesServiceProvider"
+                "Stacht\\Statuses\\StatusesServiceProvider"
             ]
         }
     }

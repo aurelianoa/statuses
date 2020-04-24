@@ -1,10 +1,10 @@
 <?php
 
-namespace Statch\Statuses\Models;
+namespace Stacht\Statuses\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Statch\Statuses\Contracts\Status as StatusContract;
+use Stacht\Statuses\Contracts\Status as StatusContract;
 
 
 class Status extends Model implements StatusContract
@@ -25,7 +25,7 @@ class Status extends Model implements StatusContract
     {
         parent::__construct($attributes);
 
-        $this->setTable(config('statch-statuses.tables.statuses'));
+        $this->setTable(config('stacht-statuses.tables.statuses'));
     }
 
     public static function rules()
@@ -33,7 +33,7 @@ class Status extends Model implements StatusContract
         return [
             'name' => 'required|string|max:150',
             'hex_color' => 'required|string|max:100',
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('statch-statuses.tables.statuses').',slug'
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('stacht-statuses.tables.statuses').',slug'
         ];
     }
 
@@ -46,7 +46,7 @@ class Status extends Model implements StatusContract
      */
     public function statusable(string $class): MorphTo
     {
-        return $this->morphTo($class, 'statusable', config('statch-statuses.tables.statusables'), 'status_id', 'statusable_id');
+        return $this->morphTo($class, 'statusable', config('stacht-statuses.tables.statusables'), 'status_id', 'statusable_id');
     }
 
 }

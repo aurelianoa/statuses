@@ -11,14 +11,14 @@ class CreateStatusableTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('statch-statuses.tables.statusables'), function (Blueprint $table) {
+        Schema::create(config('stacht-statuses.tables.statusables'), function (Blueprint $table) {
             $table->unsignedBigInteger('status_id');
             $table->morphs('statusable');
             $table->timestamps();
 
             // Indexes
             $table->unique(['status_id', 'statusable_id', 'statusable_type'], 'statusables_ids_type_unique');
-            $table->foreign('status_id')->references('id')->on(config('statch-statuses.tables.statuses'))->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('status_id')->references('id')->on(config('stacht-statuses.tables.statuses'))->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ class CreateStatusableTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('statch-statuses.tables.statusables'));
+        Schema::dropIfExists(config('stacht-statuses.tables.statusables'));
     }
 }

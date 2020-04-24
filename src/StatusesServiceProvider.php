@@ -1,9 +1,9 @@
 <?php
 
-namespace Statch\Statuses;
+namespace Stacht\Statuses;
 
 use Illuminate\Support\ServiceProvider;
-use Statch\Statuses\Contracts\Status as StatusContract;
+use Stacht\Statuses\Contracts\Status as StatusContract;
 
 class StatusesServiceProvider extends ServiceProvider
 {
@@ -19,7 +19,7 @@ class StatusesServiceProvider extends ServiceProvider
             $this->bootForConsole();
         }
 
-        $this->app->bind(StatusContract::class, config('statch-statuses.models.status'));
+        $this->app->bind(StatusContract::class, config('stacht-statuses.models.status'));
     }
 
     /**
@@ -27,7 +27,7 @@ class StatusesServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/statch-statuses.php', 'statch-statuses');
+        $this->mergeConfigFrom(__DIR__.'/../config/stacht-statuses.php', 'stacht-statuses');
     }
 
     /**
@@ -37,7 +37,7 @@ class StatusesServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__.'/../config/statch-statuses.php' => config_path('statch-statuses.php'),
+            __DIR__.'/../config/stacht-statuses.php' => config_path('stacht-statuses.php'),
         ], 'config');
 
         // Publishing the migration file.

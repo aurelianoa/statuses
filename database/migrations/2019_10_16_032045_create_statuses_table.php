@@ -11,7 +11,7 @@ class CreateStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('statch-statuses.tables.statuses'), function (Blueprint $table) {
+        Schema::create(config('stacht-statuses.tables.statuses'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('slug')->unique();
             $table->string('name')->index();
@@ -27,6 +27,6 @@ class CreateStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('statch-statuses.tables.statuses'));
+        Schema::dropIfExists(config('stacht-statuses.tables.statuses'));
     }
 }
