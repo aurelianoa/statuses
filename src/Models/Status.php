@@ -33,7 +33,7 @@ class Status extends Model implements StatusContract
         return [
             'name' => 'required|string|max:150',
             'hex_color' => 'required|string|max:100',
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('stacht-statuses.tables.statuses').',slug'
+            'slug' => 'required|alpha_dash|max:150|unique:' . config('stacht-statuses.tables.statuses') . ',slug'
         ];
     }
 
@@ -48,5 +48,4 @@ class Status extends Model implements StatusContract
     {
         return $this->morphTo($class, 'statusable', config('stacht-statuses.tables.statusables'), 'status_id', 'statusable_id');
     }
-
 }

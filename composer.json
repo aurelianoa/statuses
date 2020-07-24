@@ -1,12 +1,12 @@
 {
     "name": "stacht/statuses",
-    "description": ":description",
+    "description": "Polymorphic Laravel package for status managemen",
     "license": "MIT",
     "authors": [{
         "name": "Aureliano Alarcon Smith",
         "email": "aureliano.alarcon@gmail.com"
     }],
-    "homepage": "https://bitbucket.com/stacht/statuses",
+    "homepage": "https://github.com/stacht/statuses",
     "keywords": ["Laravel", "Statuses", "Stacht"],
     "require": {
         "php": "^7.2",

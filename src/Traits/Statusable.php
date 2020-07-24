@@ -3,11 +3,12 @@
 namespace Stacht\Statuses\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Stacht\Status\Contracts\Status;
+// use Stacht\Status\Contracts\Status;
+use \Stacht\Statuses\Models\Status;
 use Illuminate\Support\Arr;
+
 
 trait Statusable
 {
@@ -31,15 +32,38 @@ trait Statusable
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function status(): MorphToMany
+    public function statuses(): MorphToMany
     {
-        return $this->morphToMany(config('stacht-statuses.models.status'), 'statusable', config('stacht-statuses.tables.statusables'), 'statusable_id', 'status_id')
-                    ->withTimestamps();
+        return $this->morphToMany(
+            config('stacht-statuses.models.status'),
+            'statusable',
+            config('stacht-statuses.tables.statusables'),
+            'statusable_id',
+            'status_id'
+        )
+            ->latest('id')
+            ->withTimestamps();
     }
 
-    /**
-     * Boot the categorizable trait for the model.
-     */
+    public function latestStatus(): ?Status
+    {
+        $statuses = $this->relationLoaded('statuses') ? $this->statuses : $this->statuses();
+
+        return $statuses->first();
+    }
+
+    public function status(): ?Status
+    {
+        return $this->latestStatus();
+    }
+
+    public function getStatusAttribute()
+    {
+        return $this->latestStatus();
+    }
+
+
+
     public static function bootStatusable()
     {
         static::deleted(function (self $model) {
@@ -50,30 +74,12 @@ trait Statusable
         });
     }
 
-    /**
-     * Determine if the model has any of the given categories.
-     *
-     * @param mixed $status
-     *
-     * @return bool
-     */
-    public function hasStatus($status): bool
+
+    public function hasStatus($slug): bool
     {
-        return !$this->status()
-            ->where('name',$status)
-            ->orWhere('slug',$status)
-            ->get()
-            ->isEmpty();
+        return optional($this->status)->slug === $slug;
     }
 
-
-    /**
-     * Sync model status.
-     *
-     * @param mixed $status
-     *
-     * @return $this
-     */
     public function setStatus($status)
     {
         $syncIds = [];
@@ -83,7 +89,7 @@ trait Statusable
         } else if (is_string($status)) {
             $status = app(config('stacht-statuses.models.status'))->firstWhere(['slug' => $status]);
 
-            if (! empty($status)) {
+            if (!empty($status)) {
                 $syncIds[] = $status->getKey();
             }
         } else if ($status instanceof Model) {
@@ -91,9 +97,28 @@ trait Statusable
         }
 
         // Sync model ids
-        $this->status()->sync($syncIds);
+        $this->statuses()->sync($syncIds);
 
         return $this;
     }
 
+    public function scopeCurrentStatus(Builder $builder, ...$slugs)
+    {
+        $slugs = is_array($slugs) ? Arr::flatten($slugs) : func_get_args();
+
+        $builder
+            ->whereHas('statuses', function (Builder $query) use ($slugs) {
+                $query->whereIn('slug', $slugs);
+            });
+    }
+
+    public function scopeOtherCurrentStatus(Builder $builder, ...$slugs)
+    {
+        $slugs = is_array($slugs) ? Arr::flatten($slugs) : func_get_args();
+
+        $builder
+            ->whereHas('statuses', function (Builder $query) use ($slugs) {
+                $query->whereNotIn('slug', $slugs);
+            });
+    }
 }

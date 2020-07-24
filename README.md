@@ -1,6 +1,6 @@
-# Laravel Categories
+# Laravel Statuses
 
-**Stacht Statuses** is a polymorphic Laravel package, for category management. You can categorize any eloquent model with ease, and utilize the power of **Nested Sets**
+**Stacht Statuses** is a polymorphic Laravel package for status management.
 
 Take a look at [contributing.md](contributing.md) to see a to do list.
 
@@ -9,7 +9,7 @@ Take a look at [contributing.md](contributing.md) to see a to do list.
 Via Composer
 
 ``` bash
-$ composer require stacht/categories
+$ composer require stacht/statuses
 ```
 
 Publish configuration
@@ -28,13 +28,13 @@ $ php artisan vendor:publish --provider="Stacht\Statuses\StatusesServiceProvider
 
 ## Usage
 
-To add categories support to your eloquent models simply use `\Stacht\Statuses\Traits\Statusable` trait.
+To add status support to your eloquent models simply use `\Stacht\Statuses\Traits\Statusable` trait.
 
-### Manage your categories
+### Manage your statuses
 
-Your categories are just normal [eloquent](https://laravel.com/docs/master/eloquent) models, so you can deal with it like so.
+Your statuses are just normal [eloquent](https://laravel.com/docs/master/eloquent) models, so you can deal with it like so.
 
-### Manage your categorizable model
+### Manage your statusable model
 
 The API is intutive and very straightfoward, so let's give it a quick look:
 
@@ -42,14 +42,23 @@ The API is intutive and very straightfoward, so let's give it a quick look:
 // Get instance of your model
 $post = new \App\Models\Post::find();
 
-// Get attached categories collection
+// Get latest status by magic getter
 $post->status;
-
-// Get attached categories query builder
+// Or simply use the method
 $post->status();
+
+// Both are implementing the:
+$post->latestStatus()
+
+
+// Get all attached statuses
+$post->statuses;
+
+// Get query builder of statuses
+$post->statuses();
 ```
 
-You can attach categories in various ways:
+You can attach statuses in various ways:
 
 ```php
 use Stacht\Statuses\Models\Status;
@@ -63,41 +72,21 @@ $post->setStatus('Status Name');
 
 ```
 
-And as you may have expected, you can check if status is set:
+Get models including one or more statuses
 
 ```php
-use Stacht\Statuses\Models\Status;
+$posts->currentStatus('open', 'active', ..)->get();
+```
 
+Get models excluding one or more statuses
 
-// Single status by slug
-$post->hasStatus('test-status');
-
-// Single status by name
-$post->hasStatus('Status name');
-
+```php
+$posts->otherCurrentStatus('draft', 'archived', ...)->get();
 ```
 
 
 
 ###
-
-## Extending
-
-If you need to EXTEND the existing `Category` model note that:
-
-- Your `Category` model needs to extend the `Stacht\Categories\Models\Category` model
-
-If you need to REPLACE the existing `Category` model  you need to keep the following things in mind:
-
-- Your `Category` model needs to implement the `Stacht\Categories\Contracts\Category` contract
-
-In BOTH cases, whether extending or replacing, you will need to specify your new model in the configuration. To do this you must update the `models` value in the configuration file after publishing the configuration with this command:
-
-```
-php artisan vendor:publish --provider="Stacht\Categories\CategoriesServiceProvider" --tag="config"
-```
-
-
 
 ## Change log
 
