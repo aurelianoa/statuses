@@ -2,7 +2,7 @@
 
 Contributions are welcome and will be fully credited.
 
-Contributions are accepted via Pull Requests on [Bitbucket](https://bitbucket.com/stacht/statuses).
+Contributions are accepted via Pull Requests on [github](https://github.com/stacht/statuses).
 
 # Things you could do
 If you want to contribute but do not know where to start, this list provides some starting points.
