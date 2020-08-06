@@ -97,7 +97,7 @@ trait Statusable
         }
 
         // Sync model ids
-        $this->statuses()->sync($syncIds);
+        $this->statuses()->syncWithoutDetaching($syncIds);
 
         return $this;
     }
